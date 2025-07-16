@@ -1,5 +1,5 @@
 let turnchanger = true;
-let Count = 0;
+let FilledCount = 0;
 const WinningSituation = [
   [1, 2, 3],
   [4, 5, 6],
@@ -17,6 +17,8 @@ function Filler(DivNumber) {
   let div = document.getElementById(`${DivNumber}`);
   if (div.innerHTML != "") return;
   div.innerHTML = XOValue;
+    FilledCount++;
+
   if (turnchanger) {
     XFilled.push(DivNumber);
     if (XFilled.length > 2) {
@@ -28,15 +30,18 @@ function Filler(DivNumber) {
       Checker(OFilled);
     }
   }
-  if (Count == 9) {
-    Restart();
+    
+
+  if (FilledCount === 9) {
+       setTimeout(Restart,1000);
+       let div = document.getElementById("win");
+      div.innerText="Draw";
   }
   turnchanger = !turnchanger;
-  Count++;
 }
-function Checker(ChecKNumbers) {
+function  Checker (ChecKNumbers) {
   let count;
-  WinningSituation.forEach((item) => {
+  WinningSituation.forEach((item,index) => {
     count = 0;
     item.forEach((subItem) => {
       let a = ChecKNumbers.includes(subItem);
@@ -48,7 +53,9 @@ function Checker(ChecKNumbers) {
       let a = turnchanger ? "X Won" : "O Won";
       let div = document.getElementById("win");
       div.innerText=a;
-      Restart();
+      LineDrawer(index);
+       setTimeout(Restart,1000);
+      return;
     }
   });
 }
@@ -60,5 +67,10 @@ function Restart() {
   XFilled = [];
   OFilled = [];
   turnchanger = !turnchanger;
-  Count = 0;
+  FilledCount = 0;
+}
+function LineDrawer(index){
+  WinningSituation[index].forEach((item)=>{
+    let div = document.getElementById(item);
+  });
 }
